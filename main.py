@@ -51,10 +51,16 @@ async def main():
         prompt="""\
         You are an expert in n8n automation software.
         Do not ask follow-up questions or request clarification.
-        **Start**: Call `tools_documentation()` for best practices.""",
+        You must use provided tools to serve the user's request.
+        **Start**: Call `tools_documentation()` for best practices.
+        You can also call other tools if needed.
+        - list_tasks({category: "category name"}) - Lists available task templates organized by category
+        - `get_node_for_task('task_name')` - Get pre-configured node for tasks
+        - `search_nodes({query: 'keyword'})` - Search nodes by functionality.
+        - `list_nodes({category: 'trigger'})` - Browse nodes by category.""",
     )
 
-    state = {"messages": [HumanMessage(content="Create a n8n workflow JSON that sends an email on manual trigger.")]}
+    state = {"messages": [HumanMessage(content="Build a n8n workflow JSON that sends an email on manual trigger. Use tools provided to you.")]}
     
     response = await agent.ainvoke(state)
 
